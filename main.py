@@ -1,7 +1,19 @@
+import os
+import sys
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog
 from PIL import Image, ImageTk 
 import binascii
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
 
 class HexDiffApp:
     def __init__(self, root):
@@ -91,7 +103,7 @@ class HexDiffApp:
         frame1.grid_columnconfigure(3, weight=1, minsize=750)  # 두 번째 열의 최소 너비 설정   
 
     def add_logo(self, frame1):
-        self.logo_image = Image.open("./logo.png")
+        self.logo_image = Image.open(resource_path("logo.png"))
         self.logo_image = self.logo_image.resize((100, 50), Image.ANTIALIAS)
         self.logo_photo = ImageTk.PhotoImage(self.logo_image)
 
@@ -401,7 +413,7 @@ class HexDiffApp:
     def on_resize(self):
         self.update_minimap(self.canvas1, self.text_area1)
         self.update_minimap(self.canvas2, self.text_area2)
-
+    
 
 if __name__ == "__main__":
     root = tk.Tk()
