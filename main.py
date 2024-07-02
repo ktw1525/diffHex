@@ -104,7 +104,11 @@ class HexDiffApp:
 
     def add_logo(self, frame1):
         self.logo_image = Image.open(resource_path("logo.png"))
-        self.logo_image = self.logo_image.resize((100, 50), Image.ANTIALIAS)
+        if hasattr(Image, 'Resampling'):
+            self.logo_image = self.logo_image.resize((100, 50), Image.Resampling.LANCZOS)
+        else:
+            self.logo_image = self.logo_image.resize((100, 50), Image.ANTIALIAS)
+        
         self.logo_photo = ImageTk.PhotoImage(self.logo_image)
 
         self.logo_frame = tk.Frame(frame1, highlightbackground="black", highlightthickness=1)
